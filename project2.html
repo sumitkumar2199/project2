@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Password Generator</title>
+  </head>
+  <meta name="viewport" content="width=device-width ,initial-scale=1.0" />
+  <style>
+        @media only screen and (max-width : 480px ){
+      body{
+        display: table-column;
+        
+      }
+    }
+    body {
+      background-image: url("https://sm.pcmag.com/pcmag_in/how-to/h/how-to-use/how-to-use-a-random-password-generator_tvjd.jpg");
+      padding: 14px;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size: cover;
+    }
+    .text {
+      text-align: center;
+      background-image: linear-gradient(45deg, red, white, transparent);
+    }
+    table {
+      border-collapse: inherit;
+      font-size: x-large;
+      margin: 55px;
+      font-family: cursive;
+      font-weight: bolder;
+    }
+    tr {
+      position: relative;
+      left: 250px;
+      padding: 10px;
+      top: 50px;
+      background-image: linear-gradient(45deg, red, white, transparent);
+    }
+    button {
+      position: relative;
+      left: 55px;
+      top: 10px;
+      font-size: larger;
+    }
+    .copy {
+      position: relative;
+      font-size: small;
+      top: 1px;
+      left: 0;
+    }
+  </style>
+  <body>
+    <div class="text">
+      <h1>Password Generator</h1>
+    </div>
+    <table>
+      <tbody>
+        <tr>
+          <td>Password Length:</td>
+          <td>
+            <input
+              type="number"
+              max="15"
+              min="5"
+              value="10"
+              id="pwd_Length"
+              style="padding: 10px"
+              required
+            />
+            <label>(maximum characters(15))</label>
+          </td>
+        </tr>
+        <tr>
+          <td>Include Lowercase Characters:</td>
+          <td>
+            <input type="checkbox" id="lowerChar" checked />
+            <label>(e.g. abcdef etc.)</label>
+          </td>
+        </tr>
+
+        <tr>
+          <td>Include Uppercase Characters:</td>
+          <td>
+            <input type="checkbox" id="upperChar" checked />
+            <label>(e.g. ABCDEF etc.)</label>
+          </td>
+        </tr>
+
+        <tr>
+          <td>Include Numbers:</td>
+          <td>
+            <input type="checkbox" id="includeNumbers" checked />
+            <label>(e.g. 0123456 etc.)</label>
+          </td>
+        </tr>
+
+        <tr>
+          <td>Include Symbols:</td>
+          <td>
+            <input type="checkbox" id="includeSymbols" checked />
+            <label>(e.g. /*{}($#) etc.)</label>
+          </td>
+        </tr>
+        <tr>
+          <td style="position: absolute; left: 170px; top: 70px">
+            <button id="submit" style="background-color: red">
+              Generate Password
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td style="position: absolute; right: 230px">
+            <label id="pass">
+              <input
+                type="text"
+                id="passwrd"
+                style="
+                  padding: 5px;
+                  font-size: medium;
+                  font-weight: bolder;
+                  position: relative;
+                  left: 25px;
+                "
+              />
+            </label>
+            <button
+              id="copy"
+              class="copy"
+              style="font-size: large; position: relative; left: 18px"
+            >
+              Copy
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+  <script>
+    const lowerchar = "abcdefghijklmnopqrstuvwxyz";
+    const upperchar = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const includenumbers = "0123456789";
+    const includesymbols = "!@#$%^&*()<>{}";
+    const pwd = "";
+
+    const pwdLength = document.getElementById("pwd_Length");
+    const lowerchars = document.getElementById("lowerChar");
+    const upperchars = document.getElementById("upperChar");
+    const includenumberss = document.getElementById("includeNumbers");
+    const includesymbolss = document.getElementById("includeSymbols");
+    const submit = document.getElementById("submit");
+    const pass = document.getElementById("passwrd");
+
+    submit.addEventListener("click", () => {
+      let initialPassword = pwd;
+      lowerchars.checked ? (initialPassword += lowerchar) : "";
+      upperchars.checked ? (initialPassword += upperchar) : "";
+      includenumberss.checked ? (initialPassword += includenumbers) : "";
+      includesymbolss.checked ? (initialPassword += includesymbols) : "";
+
+      pass.value = generatePassword(pwdLength.value, initialPassword);
+    });
+
+    function generatePassword(l, initialPassword) {
+      let passwrd = pwd;
+      for (let i = 0; i < l; i++) {
+        passwrd += initialPassword.charAt(
+          Math.floor(Math.random() * initialPassword.length)
+        );
+      }
+      return passwrd;
+    }
+
+    const copyy = document.getElementById("copy");
+
+    copyy.addEventListener("click", () => {
+      if (passwrd.value == "") {
+        alert("Please generate a Password");
+      } else {
+        passwrd.select();
+        navigator.clipboard.writeText(passwrd.value);
+        alert("Password has been copied to clipboard :" + passwrd.value);
+      }
+    });
+  </script>
+</html>
